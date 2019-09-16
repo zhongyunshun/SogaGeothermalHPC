@@ -29,6 +29,7 @@
 
 #include <deal.II/numerics/data_out.h>
 #include <deal.II/numerics/vector_tools.h>
+#include <deal.II/base/convergence_table.h>
 #include <deal.II/numerics/error_estimator.h>
 #include <deal.II/numerics/solution_transfer.h>
 #include <deal.II/numerics/matrix_tools.h>
@@ -56,7 +57,6 @@ private:
   void setup_system();
   void solve_time_step();
   void output_results() const;
-
 
   Triangulation<dim> triangulation; //grid
   FE_Q<dim> fe;                     //element
@@ -104,7 +104,6 @@ public:
                        const unsigned int component = 0) const; //boundary value
 };
 
-
 template <int dim>
 double RightHandSide<dim>::value(const Point<dim> &p,
                                  const unsigned int component) const
@@ -117,7 +116,6 @@ double RightHandSide<dim>::value(const Point<dim> &p,
   return 0;
 }
 
-
 template <int dim>
 double BoundaryValues<dim>::value(const Point<dim> &p,
                                   const unsigned int /*component*/) const
@@ -125,7 +123,7 @@ double BoundaryValues<dim>::value(const Point<dim> &p,
   // (void)component;
   // Assert(component == 0, ExcIndexRange(component, 0, 1));
   const double time = this->get_time();
-  return p.square()*sin(time*3.1415926); // boundary value is set to zero in this case
+  return 10. * sin(time * 3.1415926); // boundary value is set to zero in this case
 }
 
 template <int dim>
@@ -133,8 +131,8 @@ HeatEquation<dim>::HeatEquation() // initialization
     : fe(1),
       dof_handler(triangulation),
       time(0.0),
-      time_step(1. / 500), //a time step constant at 1/500 (remember that one period of the source on the right hand side was set to 0.2 above,
-                           //so we resolve each period with 100 time steps)
+      time_step(1. / 20), //a time step constant at 1/500 (remember that one period of the source on the right hand side was set to 0.2 above,
+                          //so we resolve each period with 100 time steps)
       timestep_number(0),
       theta(0.5)
 {
@@ -184,7 +182,7 @@ void HeatEquation<dim>::grid_input()
 {
   GridIn<dim> gridin;
   gridin.attach_triangulation(triangulation);
-  std::ifstream f("untitled.msh");
+  std::ifstream f("model.msh");
   gridin.read_msh(f);
 
   print_mesh_info(triangulation, "grid-1.eps");
@@ -236,7 +234,6 @@ void HeatEquation<dim>::setup_system()
   old_solution.reinit(dof_handler.n_dofs());
   system_rhs.reinit(dof_handler.n_dofs());
 }
-
 
 template <int dim>
 void HeatEquation<dim>::solve_time_step()
@@ -337,7 +334,7 @@ void HeatEquation<dim>::run()
 
       std::map<types::global_dof_index, double> boundary_values;
       VectorTools::interpolate_boundary_values(dof_handler, //evaluate value by interpolation
-                                               0,
+                                               1,
                                                boundary_values_function,
                                                boundary_values);
 

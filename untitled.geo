@@ -32,4 +32,17 @@ Extrude {0.0,0.0,1.0}{
 //+
 
 
-Mesh.MshFileVersion = 1;
+Mesh.MshFileVersion = 1;//+
+Circle(2) = {0, 0, 0, 0.1, 0, 2*Pi};
+//+
+SetFactory("Built-in");
+//+
+SetFactory("OpenCASCADE");
+//+
+SetFactory("Built-in");
+//+
+Coherence;
+//+
+Cylinder(1) = {0, 0, 0, 0, 0, 1, 10, 2*Pi};
+//+
+Cylinder(2) = {0, 0, 0, 0, 0, 1, 0.3, 2*Pi};
