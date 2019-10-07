@@ -34,6 +34,12 @@
 #include <deal.II/numerics/solution_transfer.h>
 #include <deal.II/numerics/matrix_tools.h>
 
+// json
+#include "json.hpp"
+
+// TCLAP
+#include "tclap/CmdLine.h"
+
 #include <iostream>
 #include <fstream>
 
