@@ -1,4 +1,7 @@
 {
-    "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools",
-    "editor.formatOnType": true
+    "editor.formatOnType": true,
+    "files.associations": {
+        "*.tpp": "cpp"
+    },
+    "terminal.integrated.shell.windows": "cmd.exe"
 }

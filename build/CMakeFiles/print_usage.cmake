@@ -1,7 +1,7 @@
 MESSAGE(
 "###
 #
-#  Project  Geothermal  set up with  deal.II-8.5.1  found at
+#  Project  src/Geothermal  set up with  deal.II-8.5.1  found at
 #      /usr
 #
 #  CMAKE_BUILD_TYPE:          Debug
